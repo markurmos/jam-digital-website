@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placeholder Video Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        canvas.width = 1920;
+        canvas.height = 1080;
+        
+        // Animation parameters
+        let time = 0;
+        const particles = [];
+        
+        // Create particles
+        for (let i = 0; i < 100; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 3 + 1,
+                speedX: (Math.random() - 0.5) * 2,
+                speedY: (Math.random() - 0.5) * 2,
+                opacity: Math.random() * 0.5 + 0.5
+            });
+        }
+        
+        function animate() {
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#1a1a2e');
+            gradient.addColorStop(0.5, '#16213e');
+            gradient.addColorStop(1, '#0f3460');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw animated gradient waves
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.02)';
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, canvas.height);
+                
+                for (let x = 0; x <= canvas.width; x += 10) {
+                    const y = canvas.height * 0.6 + 
+                             Math.sin((x + time * 2 + i * 100) * 0.01) * 50 +
+                             Math.sin((x + time * 3 + i * 200) * 0.005) * 100;
+                    ctx.lineTo(x, y);
+                }
+                
+                ctx.lineTo(canvas.width, canvas.height);
+                ctx.closePath();
+                ctx.fill();
+            }
+            
+            // Draw particles
+            particles.forEach(particle => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                
+                // Wrap around screen
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                if (particle.y > canvas.height) particle.y = 0;
+                
+                ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            // Draw text overlay (for reference)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.font = 'bold 80px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('PLACEHOLDER VIDEO', canvas.width / 2, canvas.height / 2);
+            
+            time++;
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // Instructions
+        console.log('To record this as a video:');
+        console.log('1. Use browser extension like "Loom" or "Screen Recorder"');
+        console.log('2. Or use QuickTime Player (Mac) or OBS Studio');
+        console.log('3. Record for 10-15 seconds');
+        console.log('4. Save as hero-video.mp4 in the public folder');
+    </script>
+</body>
+</html> 

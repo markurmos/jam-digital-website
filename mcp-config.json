@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "servers": {
+    "unified-stack": {
+      "name": "Unified Stack MCP Server",
+      "description": "Tools for Next.js, Supabase, and AI development",
+      "command": "python3.12",
+      "args": ["web/backend/mcp-servers/unified-stack-server.py"],
+      "env": {
+        "PROJECT_ROOT": "${PWD}/web",
+        "SUPABASE_URL": "${SUPABASE_URL}",
+        "SUPABASE_ANON_KEY": "${SUPABASE_ANON_KEY}",
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}"
+      },
+      "capabilities": {
+        "tools": [
+          "create_nextjs_component",
+          "query_supabase",
+          "generate_and_process_image",
+          "deploy_to_vercel"
+        ],
+        "resources": [
+          "stack://config",
+          "stack://schema",
+          "stack://components"
+        ]
+      }
+    }
+  },
+  "clients": {
+    "claude-desktop": {
+      "servers": ["unified-stack"]
+    },
+    "cursor": {
+      "servers": ["unified-stack"]
+    }
+  }
+} 
