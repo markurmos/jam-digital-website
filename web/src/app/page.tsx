@@ -19,6 +19,7 @@ import {
   Star
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { VideoConverter } from "@/components/video-converter";
 
 export default function Home() {
   const features = [
@@ -78,16 +79,14 @@ export default function Home() {
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
           >
+            <source src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/videos/jam-hero.webm`} type="video/webm" />
             <source src="/hero-video.mp4" type="video/mp4" />
             {/* Fallback for browsers that don't support video */}
             Your browser does not support the video tag.
           </video>
           
-          {/* Fallback gradient background (visible when video is loading or missing) */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900 animate-gradient" />
-          
-          {/* Overlay to ensure text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/70 to-background/90" />
+          {/* Subtle black overlay for text readability */}
+          <div className="absolute inset-0 bg-black/5" />
         </div>
 
         {/* Hero Content */}
@@ -168,9 +167,10 @@ export default function Home() {
           </h2>
           
           <Tabs defaultValue="ecommerce" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="ecommerce">E-Commerce</TabsTrigger>
               <TabsTrigger value="ai-chat">AI Chat</TabsTrigger>
+              <TabsTrigger value="video-converter">Video Converter</TabsTrigger>
               <TabsTrigger value="mobile">Mobile App</TabsTrigger>
             </TabsList>
             
@@ -291,6 +291,10 @@ export default function Home() {
                   </div>
                 </CardContent>
               </Card>
+            </TabsContent>
+            
+            <TabsContent value="video-converter">
+              <VideoConverter />
             </TabsContent>
             
             <TabsContent value="mobile">

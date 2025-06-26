@@ -21,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { VideoConverter } from '@/components/video-converter'
 
 interface ProcessedImage {
   id: string
@@ -277,7 +278,8 @@ export default function ImageConverterPage() {
 
   return (
     <div className="container mx-auto py-8 max-w-6xl">
-      <h1 className="text-4xl font-bold mb-8">Image Converter & Optimizer</h1>
+      <h1 className="text-4xl font-bold mb-8">Media Converter & Optimizer</h1>
+      <p className="text-lg text-muted-foreground mb-8">Convert and optimize images and videos with AI-powered tools</p>
       
       {error && (
         <Alert variant="destructive" className="mb-6">
@@ -792,6 +794,12 @@ export default function ImageConverterPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Video Converter Section */}
+      <div className="mt-12">
+        <h2 className="text-3xl font-bold mb-8">Video Converter</h2>
+        <VideoConverter />
+      </div>
     </div>
   )
 } 
